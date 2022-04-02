@@ -3,12 +3,15 @@ import { supabase } from "../utils/supabaseClient";
 
 export default function Account({ session }) {
   const [loading, setLoading] = useState(true);
+  const [userEmail, setUserEmail] = useState("");
+
   const [username, setUsername] = useState(null);
   const [website, setWebsite] = useState(null);
   const [avatar_url, setAvatarUrl] = useState(null);
 
   useEffect(() => {
     getProfile();
+    console.log(session);
   }, [session]);
 
   async function getProfile() {
@@ -28,6 +31,7 @@ export default function Account({ session }) {
 
       if (data) {
         setUsername(data.username);
+        setUserEmail(user.email);
         setWebsite(data.website);
         setAvatarUrl(data.avatar_url);
       }
@@ -69,7 +73,7 @@ export default function Account({ session }) {
     <div className="form-widget">
       <div>
         <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session.user.email} disabled />
+        <input id="email" type="text" value={userEmail} disabled />
       </div>
       <div>
         <label htmlFor="username">Name</label>

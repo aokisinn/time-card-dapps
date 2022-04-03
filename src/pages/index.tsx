@@ -8,10 +8,14 @@ declare let window: any;
 
 export default function Home() {
   const [loginState, setLoginState] = useState("");
-  const [addres, setAddres] = useState("No wallet Addres");
+  const [mataMaskAddress, setMataMaskAddress] = useState("");
+
+  const [userId, setUserId] = useState("");
+  const [userAddress, setUserAddress] = useState("");
+  const [token, setToken] = useState("");
 
   const login = async () => {
-    setLoginState("connecting to your wallet...");
+    setLoginState("matamask未接続");
     // MateMaskがあるか？
     if (!window?.ethereum) {
       setLoginState("No MetaMask");
@@ -26,8 +30,8 @@ export default function Home() {
     const signer = provider.getSigner();
     // アドレス
     const walletAddres = await signer.getAddress();
-    setAddres(walletAddres);
-
+    setLoginState("matamask接続成功");
+    setMataMaskAddress(walletAddres);
     // レスポンス
     const response = await fetch("/api/auth/nonce", {
       method: "POST",
@@ -60,12 +64,30 @@ export default function Home() {
 
     const user = await userResponse.json();
     console.log(user);
+
+    await supabase.auth.setAuth(user.token);
+    setToken(user.token);
+  };
+
+  const checkUser = async () => {
+    const { data, error } = await supabase.from("users").select("*");
+    console.log(data);
+    if (data) {
+      setUserId(data[0]?.id || "");
+      setUserAddress(data[0]?.wallet_address || "");
+    }
   };
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>
-      <h1>{loginState}</h1>
-      <h1>{addres}</h1>
+      <h1>matamask 接続状況 : {loginState}</h1>
+      <h1>matamask address : {mataMaskAddress}</h1>
       <button onClick={login}>ログイン MataMask</button>
+      <hr />
+      <br />
+      <button onClick={checkUser}>チェックユーザー</button>
+      <h1>ユーザーID: {userId}</h1>
+      <h1>ユーザーアドレス: {userAddress}</h1>
+      <h1>トークン: {token}</h1>
     </div>
   );
 }

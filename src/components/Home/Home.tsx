@@ -1,7 +1,17 @@
-import { Box, Grid, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Paper,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Layout from "../Layout/Layout";
 import MonthList from "./MonthList";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState, useEffect } from "react";
 import {
   DesktopDatePicker,
   LoadingButton,
@@ -20,6 +30,19 @@ const Home = () => {
   }, []);
   const [value, setValue] = useState<Date | null>(null);
 
+  const getLastDay = (year: number, month: number) => {
+    return new Date(year, month, 0).getDate();
+  };
+
+  const lastDay = useMemo(
+    () => getLastDay(year, selectedMonth),
+    [year, selectedMonth]
+  );
+
+  useEffect(() => {
+    console.log(lastDay);
+  }, [lastDay]);
+
   return (
     <Layout>
       <Grid container spacing={2} sx={{ margin: "25px", height: "100%" }}>
@@ -33,6 +56,7 @@ const Home = () => {
           />
         </Grid>
         <Grid item xs={12} md={9}>
+          {/* TODO コンポーネント化 */}
           <Box>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <div
@@ -114,6 +138,20 @@ const Home = () => {
               </div>
             </LocalizationProvider>
           </Box>
+          <Paper style={{ maxHeight: 800, overflow: "auto", margin: "10px" }}>
+            <List>
+              {[...Array(lastDay)].map((_, i) => {
+                const day = i + 1;
+                return (
+                  <ListItem alignItems="center" key={day}>
+                    <ListItemButton sx={{ textAlign: "center" }} divider={true}>
+                      <ListItemText primary={`${day}日`} />
+                    </ListItemButton>
+                  </ListItem>
+                );
+              })}
+            </List>
+          </Paper>
         </Grid>
       </Grid>
     </Layout>

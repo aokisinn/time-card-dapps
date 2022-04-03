@@ -6,7 +6,7 @@ const Header = () => {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-          News
+          Time Card Dapps
         </Typography>
       </AppBar>
     </Box>

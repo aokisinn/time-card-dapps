@@ -14,14 +14,25 @@ const nonceApi = async (req: NextApiRequest, res: NextApiResponse) => {
   const nonce = uuidv4();
 
   if (data) {
-    await supabase
+    const { data: updateUser, error: updateUserError } = await supabase
       .from("users")
       .update({ nonce })
       .match({ wallet_address: walletAddres });
+
+    if (updateUserError) {
+      res.status(400).json({ error: updateUserError.message });
+    } else {
+      res.status(200).json({ nonce });
+    }
   } else {
     const { data: newUser, error: newUserError } = await supabase
       .from("users")
       .insert({ nonce, wallet_address: walletAddres });
+    if (newUserError) {
+      res.status(400).json({ error: newUserError.message });
+    } else {
+      res.status(200).json({ nonce });
+    }
   }
 };
 

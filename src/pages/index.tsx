@@ -38,8 +38,28 @@ export default function Home() {
         "Content-Type": "application/json",
       },
     });
+
+    const { nonce } = await response.json();
+
     // サインインメッセージ
-    const signature = await signer.signMessage("hello world");
+    const signature = await signer.signMessage(nonce);
+
+    // ユーザー情報取得
+    const userResponse = await fetch("/api/auth/wallet", {
+      method: "POST",
+      body: JSON.stringify({
+        walletAddress: walletAddres,
+        nonce,
+        signature,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    console.log(userResponse);
+
+    const user = await userResponse.json();
+    console.log(user);
   };
   return (
     <div className="container" style={{ padding: "50px 0 100px 0" }}>

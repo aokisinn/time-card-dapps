@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 
 export default function Login() {
   const { loginState, mataMaskLogin, getLoginUser } = useMataMaskLogin();
-  const [user, setUser] = useRecoilState(userState);
+  const [_, setUser] = useRecoilState(userState);
   const [isLogin, setIsLogin] = useRecoilState(isLoginState);
   const router = useRouter();
 

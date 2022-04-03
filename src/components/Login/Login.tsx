@@ -1,19 +1,41 @@
 import Layout from "@/components/Layout/Layout";
-import { Alert, AlertTitle, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Container } from "@mui/material";
 import useMataMaskLogin from "./useMataMaskLogin";
 import LoadingButton from "@mui/lab/LoadingButton";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
+import { useRecoilState } from "recoil";
+import { userState } from "@/atoms/user";
+import { isLoginState } from "@/atoms/login";
+import { useRouter } from "next/router";
 
 export default function Login() {
-  const { loginState, walletAddress, mataMaskLogin, getLoginUser } =
-    useMataMaskLogin();
+  const { loginState, mataMaskLogin, getLoginUser } = useMataMaskLogin();
+  const [user, setUser] = useRecoilState(userState);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginState);
+  const router = useRouter();
+
+  const getUser = useCallback(async () => {
+    const user = await getLoginUser();
+    setUser({
+      walletAddress: user.wallet_address,
+    });
+    setIsLogin(true);
+  }, [setUser, getLoginUser, setIsLogin]);
 
   useEffect(() => {
     if (loginState === "No MetaMask") {
       alert("metaMaskがインストールされてません");
     }
-  }, [loginState]);
+    if (loginState === "Sucess") {
+      getUser();
+    }
+  }, [loginState, getUser]);
+
+  useEffect(() => {
+    if (!isLogin) return;
+    router.push("/home");
+  }, [isLogin, router]);
 
   return (
     <Layout>
@@ -32,7 +54,9 @@ export default function Login() {
             paddingTop: "30%",
           }}
         >
-          <Grid item xs={4}></Grid>
+          <Grid item xs={4}>
+            <h1>{user.walletAddress}</h1>
+          </Grid>
           <Grid item xs={4}>
             <LoadingButton
               variant="contained"

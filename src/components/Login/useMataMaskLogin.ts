@@ -7,7 +7,6 @@ type loginState = "Stay" | "Loading" | "Sucess" | "No MetaMask";
 
 export default function useMataMaskLogin() {
   const [loginState, setLoginState] = useState<loginState>("Stay");
-  const [walletAddress, setWalletAddress] = useState("");
 
   const getNonce = useCallback(async (walletAddres: string) => {
     const response = await fetch("/api/auth/nonce", {
@@ -59,7 +58,6 @@ export default function useMataMaskLogin() {
 
     const signer = provider.getSigner();
     const walletAddres = await signer.getAddress();
-    setWalletAddress(walletAddres);
 
     const nonce = await getNonce(walletAddres);
 
@@ -68,10 +66,10 @@ export default function useMataMaskLogin() {
     const token = await getJstToken(walletAddres, nonce, signature);
     await supabase.auth.setAuth(token);
     setLoginState("Sucess");
-  }, [setLoginState, setWalletAddress, getNonce, getJstToken]);
+  }, [setLoginState, getNonce, getJstToken]);
 
   const getLoginUser = useCallback(async () => {
-    const { data } = await supabase.from("users").select("*");
+    const { data } = await supabase.from("users").select("*").single();
     if (data) {
       return data;
     }
@@ -80,7 +78,6 @@ export default function useMataMaskLogin() {
 
   return {
     loginState,
-    walletAddress,
     mataMaskLogin,
     getLoginUser,
   };

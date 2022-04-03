@@ -4,6 +4,8 @@ import Auth from "../components/Auth";
 import Account from "../components/Account";
 import TimeCard from "../components/TimeCard";
 import { ethers } from "ethers";
+import { Button, ButtonGroup } from "@material-ui/core";
+
 declare let window: any;
 
 export default function Home() {
@@ -88,6 +90,7 @@ export default function Home() {
       <h1>ユーザーID: {userId}</h1>
       <h1>ユーザーアドレス: {userAddress}</h1>
       <h1>トークン: {token}</h1>
+      <Button>sss</Button>
     </div>
   );
 }

@@ -1,10 +1,6 @@
-import React, { Component } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/atoms/user";
-import { isLoginState } from "@/atoms/login";
+import React from "react";
+import Layout from "@/components/Layout/Layout";
 
 export default function Home() {
-  const isLogin = useRecoilValue(isLoginState);
-  const user = useRecoilValue(userState);
-  return <>{user.walletAddress}</>;
+  return <Layout></Layout>;
 }

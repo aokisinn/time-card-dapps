@@ -46,7 +46,7 @@ export default function useMataMaskLogin() {
 
   // TODO ドキュメント要確認
   // TODO エラー処理
-  const MataMaskLogin = useCallback(async () => {
+  const mataMaskLogin = useCallback(async () => {
     if (!window?.ethereum) {
       setLoginState("No MetaMask");
       return;
@@ -81,7 +81,7 @@ export default function useMataMaskLogin() {
   return {
     loginState,
     walletAddress,
-    MataMaskLogin,
+    mataMaskLogin,
     getLoginUser,
   };
 }

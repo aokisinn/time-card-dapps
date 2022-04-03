@@ -54,9 +54,7 @@ export default function Login() {
             paddingTop: "30%",
           }}
         >
-          <Grid item xs={4}>
-            <h1>{user.walletAddress}</h1>
-          </Grid>
+          <Grid item xs={4}></Grid>
           <Grid item xs={4}>
             <LoadingButton
               variant="contained"

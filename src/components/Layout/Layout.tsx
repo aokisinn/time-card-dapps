@@ -15,7 +15,7 @@ const Layout = ({ children }: Props) => {
     <>
       <Header walletAddress={user.walletAddress} />
       {children}
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

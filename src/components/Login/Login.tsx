@@ -51,7 +51,7 @@ export default function Login() {
           container
           spacing={2}
           sx={{
-            paddingTop: "30%",
+            paddingTop: "40%",
           }}
         >
           <Grid item xs={4}></Grid>

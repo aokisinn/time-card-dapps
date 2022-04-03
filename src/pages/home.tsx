@@ -1,6 +1,6 @@
+import Home from "@/components/Home/Home";
 import React from "react";
-import Layout from "@/components/Layout/Layout";
 
-export default function Home() {
-  return <Layout></Layout>;
+export default function HomePage() {
+  return <Home></Home>;
 }

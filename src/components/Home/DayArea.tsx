@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
 import { blue } from "@mui/material/colors";
+import { Typography } from "@mui/material";
 
 type Props = {
   lastDay: number;
@@ -32,7 +33,7 @@ const DayArea = ({ lastDay, selectedDay, dayItemOnClick }: Props) => {
                 style={{ background: selectedDay === day ? blue[100] : "#fff" }}
                 onClick={() => dayItemOnClick(day)}
               >
-                {day}
+                <Typography>{day}</Typography>
               </Item>
             </Grid>
           );

@@ -1,18 +1,8 @@
-import {
-  Box,
-  Grid,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  Paper,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Paper, TextField, Typography } from "@mui/material";
 import Layout from "../Layout/Layout";
 import MonthList from "./MonthList";
-import MonthArea from "./MonthArea";
-import { useCallback, useMemo, useState, useEffect } from "react";
+import DayArea from "./DayArea";
+import { useMemo, useState, useEffect } from "react";
 import {
   DesktopDatePicker,
   LoadingButton,
@@ -20,15 +10,18 @@ import {
   TimePicker,
 } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import useSelectedDate from "./useSelectedDate";
 
 const Home = () => {
-  const year = 2022;
+  const {
+    year,
+    selectedMonth,
+    selectedDay,
+    setSelectedDay,
+    handleMonthOnClick,
+    handleDayOnClick,
+  } = useSelectedDate();
 
-  const [selectedMonth, setSelectedMonth] = useState(1);
-
-  const monthListItemOnClick = useCallback((month: number) => {
-    setSelectedMonth(month);
-  }, []);
   const [value, setValue] = useState<Date | null>(null);
 
   const getLastDay = (year: number, month: number) => {
@@ -52,7 +45,7 @@ const Home = () => {
             {year}年
           </Typography>
           <MonthList
-            monthListItemOnClick={monthListItemOnClick}
+            monthListItemOnClick={handleMonthOnClick}
             selectedMonth={selectedMonth}
           />
         </Grid>
@@ -146,7 +139,11 @@ const Home = () => {
                 marginRight: "100px",
               }}
             >
-              <MonthArea lastDay={lastDay} />
+              <DayArea
+                lastDay={lastDay}
+                selectedDay={selectedDay}
+                dayItemOnClick={handleDayOnClick}
+              />
             </Paper>
           </Box>
         </Grid>

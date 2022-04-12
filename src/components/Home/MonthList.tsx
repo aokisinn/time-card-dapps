@@ -26,6 +26,9 @@ const MonthList = ({ selectedMonth, monthListItemOnClick }: Props) => {
                 divider={true}
                 selected={month === selectedMonth}
                 onClick={() => monthListItemOnClick(month)}
+                style={{
+                  background: selectedMonth === month ? blue[100] : "#fff",
+                }}
               >
                 <ListItemText primary={`${month}月`} />
               </ListItemButton>

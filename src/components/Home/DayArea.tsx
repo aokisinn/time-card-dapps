@@ -3,13 +3,15 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+import { blue } from "@mui/material/colors";
 
 type Props = {
   lastDay: number;
+  selectedDay: number;
+  dayItemOnClick: (day: number) => void;
 };
 
 const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   padding: theme.spacing(2),
   margin: 10,
@@ -18,7 +20,7 @@ const Item = styled(Paper)(({ theme }) => ({
   shadow: theme,
 }));
 
-const MonthArea = ({ lastDay }: Props) => {
+const DayArea = ({ lastDay, selectedDay, dayItemOnClick }: Props) => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
@@ -26,7 +28,12 @@ const MonthArea = ({ lastDay }: Props) => {
           const day = i + 1;
           return (
             <Grid item xs={2} key={day}>
-              <Item>{day}</Item>
+              <Item
+                style={{ background: selectedDay === day ? blue[100] : "#fff" }}
+                onClick={() => dayItemOnClick(day)}
+              >
+                {day}
+              </Item>
             </Grid>
           );
         })}
@@ -35,4 +42,4 @@ const MonthArea = ({ lastDay }: Props) => {
   );
 };
 
-export default MonthArea;
+export default DayArea;

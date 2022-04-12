@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import Layout from "../Layout/Layout";
 import MonthList from "./MonthList";
+import MonthArea from "./MonthArea";
 import { useCallback, useMemo, useState, useEffect } from "react";
 import {
   DesktopDatePicker,
@@ -137,21 +138,17 @@ const Home = () => {
                 </LoadingButton>
               </div>
             </LocalizationProvider>
+            <Paper
+              style={{
+                maxHeight: 800,
+                overflow: "auto",
+                marginTop: "20px",
+                marginRight: "100px",
+              }}
+            >
+              <MonthArea lastDay={lastDay} />
+            </Paper>
           </Box>
-          <Paper style={{ maxHeight: 800, overflow: "auto", margin: "10px" }}>
-            <List>
-              {[...Array(lastDay)].map((_, i) => {
-                const day = i + 1;
-                return (
-                  <ListItem alignItems="center" key={day}>
-                    <ListItemButton sx={{ textAlign: "center" }} divider={true}>
-                      <ListItemText primary={`${day}日`} />
-                    </ListItemButton>
-                  </ListItem>
-                );
-              })}
-            </List>
-          </Paper>
         </Grid>
       </Grid>
     </Layout>
